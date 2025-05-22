@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>多功能工作信息板</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .copy-item {
+            flex: 0 1 calc(50% - 5px);
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+        .copy-item:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        .copy-label {
+            flex: 1;
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+        }
+        .copy-btn {
+            padding: 6px 12px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .random-btn {
+            width: 100%;
+            padding: 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📋 兼职信息快捷复制板</h1>
+    <div class="button-container" id="mainButtons"></div>
+    <button class="random-btn" id="randomButton">🎲 一键随机复制其他信息</button>
+
+    <script>
+        // 独立按钮文本库（每个按钮对应一个数组）
+        const buttonLibraries = [
+            {  
+                // 第一个按钮 label 就是前缀 contents 内容就是按钮复制内容
+                label: "郑州家教",         
+                contents: [
+                    "郑州家教需要辅导数学经验不限",
+                ]
+            },
+            {
+                 // 第二个按钮
+                label: "饭店打杂",
+                contents: [
+                    "饭店打杂包吃包住时薪18元",
+                ]
+            },
+            {
+                 // 第三个按钮
+                label: "后厨配菜",
+                contents: [
+                    "后厨配菜要会切菜工作时间灵活",
+                ]
+            },
+            {
+                 // 第四个按钮
+                label: "线上兼职",
+                contents: [
+                    "线上兼职数据录入在家可做",
+                ]
+            },
+            {
+                 // 第五个按钮
+                label: "发传单",
+                contents: [
+                    "发传单日结100元需自带水杯",
+                ]
+            },
+            {
+                 // 第六个按钮
+                label: "超市理货",
+                contents: [
+                    "超市理货早晚班可选有提成",
+                ]
+            },
+            {
+                 // 第七个按钮
+                label: "快递分拣",
+                contents: [
+                    "快递分拣夜班补贴包晚餐",
+                ]
+            },
+            {
+                 // 第八个按钮
+                label: "展会引导",
+                contents: [
+                    "展会引导形象好包午餐",
+                ]
+            },
+            {
+                 // 第九个按钮
+                label: "客服专员",
+                contents: [
+                    "客服专员普通话标准有培训",
+                ]
+            },
+            {
+                 // 第十个按钮
+                label: "宠物照看",
+                contents: [
+                    "宠物照看爱动物有经验优先",
+                ]
+            }
+        ];
+
+        // 随机按钮文本库随机库
+        const randomLibrary = [
+            "急招临时工可预支工资",
+            "寒假实习提供住宿证明",
+            "高薪小时工立即上岗",
+            "文员助理会办公软件",
+            "代课老师需学生证",
+            "游戏陪玩段位不限"
+        ];
+
+        // 常规按钮
+        const container = document.getElementById('mainButtons');
+        buttonLibraries.forEach((lib, index) => {
+            const btn = document.createElement('div');
+            btn.className = 'copy-item';
+            btn.innerHTML = `
+                <span class="copy-label">${lib.label}</span>
+                <button class="copy-btn">复制 ${index +1}</button>
+            `;
+            
+            btn.addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * lib.contents.length);
+                copyText(lib.contents[randomIndex]);
+            });
+            
+            container.appendChild(btn);
+        });
+
+        // 随机按钮
+        document.getElementById('randomButton').addEventListener('click', () => {
+            const randomText = randomLibrary[Math.floor(Math.random() * randomLibrary.length)];
+            copyText(randomText);
+        });
+
+        // 复制功能
+        function copyText(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('已复制：' + text);
+        }
+    </script>
+</body>
+</html>
